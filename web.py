@@ -60,7 +60,7 @@ with st.popover("Hướng dẫn sử dụng", use_container_width=True):
         st.markdown("""
         ### Cách làm:
         1.  Mở App Shopee, chọn món đồ bạn muốn mua hoặc muốn giới thiệu.
-        2.  Nhấn nút chia sẻ và chọn **'Sao chép đường dẫn'**.
+        2.  Nhấn nút chia sẻ ở phía trên cùng bên phải và chọn **'Sao chép đường dẫn'**.
         3.  Quay lại đây, dán vào ô bên dưới.
         4.  Dùng link mới tạo để mua hàng.
         """)
@@ -71,7 +71,7 @@ url_input = st.text_input("Dán link Shopee (dài hoặc rút gọn) vào đây:
 if st.button("Tạo Link Affiliate", type="primary"):
     if url_input:
         if "shopee.vn" in url_input or "shp.ee" in url_input:
-            with st.spinner('Đang phù phép link...'):
+            with st.spinner('Đang tạo link...'):
                 clean_url = url_input
                 
                 # Xử lý bung link shp.ee
