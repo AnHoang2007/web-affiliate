@@ -54,7 +54,16 @@ link_generator = AccessTradeLinkGenerator(AT_API_KEY)
 
 # --- GIAO DIỆN CHÍNH ---
 st.title("🔗 Shopee Affiliate Generator")
-st.info("Công cụ hỗ trợ sinh viên UET kiếm thêm thu nhập từ AccessTrade.")
+st.info("Công cụ hỗ trợ kiếm thêm thu nhập từ AccessTrade.")
+
+with st.popover("Hướng dẫn sử dụng", use_container_width=True):
+        st.markdown("""
+        ### Cách làm:
+        1.  Mở App Shopee, chọn món đồ bạn muốn mua hoặc muốn giới thiệu.
+        2.  Nhấn nút chia sẻ và chọn **'Sao chép đường dẫn'**.
+        3.  Quay lại đây, dán vào ô bên dưới.
+        4.  Dùng link mới tạo để mua hàng.
+        """)
 
 # Ô nhập link
 url_input = st.text_input("Dán link Shopee (dài hoặc rút gọn) vào đây:", placeholder="https://shopee.vn/product/...")
