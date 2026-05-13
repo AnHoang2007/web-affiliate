@@ -9,7 +9,7 @@ html, body, [class*="css"] {
 
 /* 2. Tùy chỉnh nút bấm */
 div.stButton > button:first-child {
-    background-color: #007BFF;
+    background-color: #22C55E;
     color: white;
     border-radius: 10px;
     border: none;
@@ -20,7 +20,7 @@ div.stButton > button:first-child {
 }
 
 div.stButton > button:hover {
-    background-color: #03b300;
+    background-color: #16A34A;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
