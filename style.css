@@ -1,0 +1,40 @@
+
+
+/* 1. Font chữ và màu nền chính */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* 2. Tùy chỉnh nút bấm */
+div.stButton > button:first-child {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    height: 3em;
+    width: 100%;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+div.stButton > button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* 3. Ẩn dòng chữ mặc định của Streamlit */
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+/* 4. Bo tròn các ô nhập liệu */
+.stTextInput > div > div > input {
+    border-radius: 10px;
+}
+
+/* 5. Thanh bên (Sidebar) */
+[data-testid="stSidebar"] {
+    background-color: #f8f9fa;
+}

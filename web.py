@@ -1,0 +1,92 @@
+import streamlit as st
+import re
+import requests
+import os
+from dotenv import load_dotenv
+
+def local_css(file_name):
+    # Thêm encoding="utf-8" vào đây
+    with open(file_name, encoding="utf-8") as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Gọi hàm để nạp giao diện từ file style.css
+local_css("style.css")
+
+# --- CẤU HÌNH TRANG WEB ---
+st.set_page_config(page_title="UET Affiliate Tool", page_icon="💰", layout="centered")
+
+# --- NẠP BIẾN MÔI TRƯỜNG ---
+load_dotenv()
+AT_API_KEY = os.getenv("AT_API_KEY")
+
+class AccessTradeLinkGenerator:
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        # Thử dùng Endpoint v2 (phiên bản mới hơn, ổn định hơn của AccessTrade)
+        self.base_url = "https://api.accesstrade.vn/v1/product_links" 
+        self.headers = {
+            # Lưu ý: Chữ "Token" phải có dấu cách phía sau
+            "Authorization": f"Token {self.api_key}", 
+            "Content-Type": "application/json"
+        }
+
+    def create_smartlink(self, original_url: str) -> str:
+        payload = {"url": original_url}
+        try:
+            response = requests.post(self.base_url, headers=self.headers, json=payload)
+            
+            # ĐOẠN DEBUG THẦN THÁNH:
+            if response.status_code == 403:
+                error_detail = response.json() # Xem server trả về lý do gì
+                return f"Lỗi 403: {error_detail.get('message', 'Bạn chưa đăng ký chiến dịch này hoặc API Key sai.')}"
+            
+            response.raise_for_status() 
+            data = response.json()
+            return data.get("product_link", "Lỗi: Không tìm thấy link trong kết quả.")
+            
+        except requests.exceptions.HTTPError as err:
+            return f"Lỗi HTTP: {err}"
+        except Exception as e:
+            return f"Lỗi hệ thống: {e}"
+
+# Khởi tạo công cụ
+link_generator = AccessTradeLinkGenerator(AT_API_KEY)
+
+# --- GIAO DIỆN CHÍNH ---
+st.title("🔗 Shopee Affiliate Generator")
+st.info("Công cụ hỗ trợ sinh viên UET kiếm thêm thu nhập từ AccessTrade.")
+
+# Ô nhập link
+url_input = st.text_input("Dán link Shopee (dài hoặc rút gọn) vào đây:", placeholder="https://shopee.vn/product/...")
+
+if st.button("Tạo Link Affiliate", type="primary"):
+    if url_input:
+        if "shopee.vn" in url_input or "shp.ee" in url_input:
+            with st.spinner('Đang phù phép link...'):
+                clean_url = url_input
+                
+                # Xử lý bung link shp.ee
+                if "shp.ee" in url_input:
+                    try:
+                        res = requests.get(url_input, timeout=10, allow_redirects=True)
+                        clean_url = res.url
+                    except:
+                        st.error("Không thể bung link rút gọn này. Hãy thử link dài nhé!")
+
+                # Tạo link AccessTrade
+                smart_link = link_generator.create_smartlink(clean_url)
+                
+                if "http" in smart_link:
+                    st.success("Tạo link thành công! Bạn có thể copy và chia sẻ.")
+                    st.code(smart_link, language="text")
+                    st.link_button("Mở link mua ngay", smart_link)
+                else:
+                    st.error(smart_link)
+        else:
+            st.warning("Đây không phải link Shopee hợp lệ bạn ơi!")
+    else:
+        st.error("Bạn quên chưa nhập link rồi!")
+
+# --- PHẦN CHÂN TRANG ---
+st.divider()
+st.caption("Phát triển bởi sinh viên UET.")
