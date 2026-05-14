@@ -83,14 +83,22 @@ if st.button("Tạo Link Affiliate", type="primary"):
                         st.error("Không thể bung link rút gọn này. Hãy thử link dài nhé!")
 
                 # Tạo link AccessTrade
-                smart_link = link_generator.create_smartlink(clean_url)
-                
-                if "http" in smart_link:
-                    st.success("Tạo link thành công! Bạn có thể copy và chia sẻ.")
-                    st.code(smart_link, language="text")
-                    st.link_button("Mở link mua ngay", smart_link)
-                else:
-                    st.error(smart_link)
+                try:
+                    smart_link = link_generator.create_smartlink(clean_url)
+
+                    if "http" in smart_link:
+                        st.success("Tạo link thành công! Bạn có thể copy và chia sẻ.")
+                        st.code(smart_link, language="text")
+                        st.link_button("Mở link mua ngay", smart_link)
+                    # Kiểm tra nếu chuỗi trả về có chứa mã lỗi 502 của hệ thống
+                    elif "502" in str(smart_link) or "Bad Gateway" in str(smart_link):
+                        st.error("⚠️ Hệ thống AccessTrade hiện tại đang quá tải hoặc bảo trì. Bạn vui lòng quay lại sau vài phút nhé!")
+                    else:
+                        st.error(smart_link)
+                        
+                except Exception as e:
+                    # Bắt lỗi dự phòng nếu hàm create_smartlink bị crash hẳn
+                    st.error("⚠️ Không thể kết nối đến máy chủ đối tác. Vui lòng thử lại sau ít phút!")
         else:
             st.warning("Đây không phải link Shopee hợp lệ bạn ơi!")
     else:
