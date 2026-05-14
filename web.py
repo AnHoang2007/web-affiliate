@@ -91,6 +91,7 @@ with st.popover("Hướng dẫn sử dụng", use_container_width=True):
         2.  Nhấn nút chia sẻ ở phía trên cùng bên phải và chọn **'Sao chép đường dẫn'**.
         3.  Quay lại đây, dán vào ô bên dưới.
         4.  Dùng link mới tạo để mua hàng.
+        5,  Liên hệ zalo: 0346987464 để được nhận 50% từ tiền hoa hồng.
         """)
 
 # Ô nhập link
