@@ -2,7 +2,37 @@ import streamlit as st
 import re
 import requests
 import os
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+
+import requests
+import os
+from bs4 import BeautifulSoup  # <-- Thêm dòng này
+
+# Hàm lấy thông tin ảnh và tên sản phẩm Shopee
+def get_shopee_preview(url):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8"
+    }
+    try:
+        res = requests.get(url, headers=headers, timeout=5)
+        
+        st.write(f"DEBUG: Mã phản hồi từ Shopee là {res.status_code}") 
+        # ------------------------------
+
+        if res.status_code == 200:
+            soup = BeautifulSoup(res.text, 'html.parser')
+            # Lấy tiêu đề và ảnh từ thẻ Meta Open Graph của Shopee
+            title_tag = soup.find("meta", property="og:title")
+            image_tag = soup.find("meta", property="og:image")
+            
+            title = title_tag["content"] if title_tag else None
+            image = image_tag["content"] if image_tag else None
+            return title, image
+    except:
+        pass
+    return None, None
 
 def local_css(file_name):
     # Thêm encoding="utf-8" vào đây
@@ -81,6 +111,19 @@ if st.button("Tạo Link Affiliate", type="primary"):
                         clean_url = res.url
                     except:
                         st.error("Không thể bung link rút gọn này. Hãy thử link dài nhé!")
+                        
+                # Code xem trước sản phẩm
+                title, image_url = get_shopee_preview(clean_url)
+                if title or image_url:
+                    with st.container(border=True): # Tạo một cái khung viền bao quanh
+                        st.markdown("##### 📦 Xem trước sản phẩm")
+                        col_img, col_txt = st.columns([1, 2.5]) # Chia làm 2 cột: Cột ảnh và Cột chữ
+                        with col_img:
+                            if image_url:
+                                st.image(image_url, use_container_width=True)
+                        with col_txt:
+                            if title:
+                                st.write(f"**{title}**")
 
                 # Tạo link AccessTrade
                 try:
