@@ -17,12 +17,13 @@ def get_shopee_preview(url):
     }
     try:
         res = requests.get(url, headers=headers, timeout=5)
-        
-        st.write(f"DEBUG: Mã phản hồi từ Shopee là {res.status_code}") 
-        # ------------------------------
 
         if res.status_code == 200:
             soup = BeautifulSoup(res.text, 'html.parser')
+            
+            page_title = soup.title.text if soup.title else "Không có tiêu đề"
+            st.write(f"DEBUG: Tiêu đề trang nhận được là: '{page_title}'")
+            
             # Lấy tiêu đề và ảnh từ thẻ Meta Open Graph của Shopee
             title_tag = soup.find("meta", property="og:title")
             image_tag = soup.find("meta", property="og:image")
