@@ -87,7 +87,7 @@ st.info("Công cụ hỗ trợ kiếm thêm thu nhập từ AccessTrade.")
 with st.popover("Hướng dẫn sử dụng", use_container_width=True):
         st.markdown("""
         ### Cách làm:
-        1.  Mở App Shopee, chọn món đồ bạn muốn mua hoặc muốn giới thiệu.
+        1.  Mở App Shopee(hoặc Tiktok Shop), chọn món đồ bạn muốn mua hoặc muốn giới thiệu.
         2.  Nhấn nút chia sẻ ở phía trên cùng bên phải và chọn **'Sao chép đường dẫn'**.
         3.  Quay lại đây, dán vào ô bên dưới.
         4.  Dùng link mới tạo để mua hàng.
@@ -95,35 +95,26 @@ with st.popover("Hướng dẫn sử dụng", use_container_width=True):
         """)
 
 # Ô nhập link
-url_input = st.text_input("Dán link Shopee (dài hoặc rút gọn) vào đây:", placeholder="https://shopee.vn/product/...")
+url_input = st.text_input(
+    "Dán link sản phẩm(Shopee hoặc Tiktok Shop) vào đây:", 
+    placeholder="https://shopee.vn/... hoặc https://vt.tiktok.com")
 
 if st.button("Tạo Link Affiliate", type="primary"):
     if url_input:
-        if "shopee.vn" in url_input or "shp.ee" in url_input:
-            with st.spinner('Đang tạo link...'):
+        #Danh sách các link được hỗ trợ
+        valid_domains = ["shopee.vn", "shp.ee", "tiktok.com"]
+        
+        if any(domain in url_input for domain in valid_domains):
+            with st.spinner('Đang xử lý và tạo link...'):
                 clean_url = url_input
                 
-                # Xử lý bung link shp.ee
-                if "shp.ee" in url_input:
+                short_domains = ["shp.ee", "tiktok.com"]
+                if any(sd in url_input for sd in short_domains):
                     try:
                         res = requests.get(url_input, timeout=10, allow_redirects=True)
                         clean_url = res.url
                     except:
                         st.error("Không thể bung link rút gọn này. Hãy thử link dài nhé!")
-                        
-                # Code xem trước sản phẩm
-                title, image_url = get_shopee_preview(clean_url)
-                if title or image_url:
-                    with st.container(border=True): # Tạo một cái khung viền bao quanh
-                        st.markdown("##### 📦 Xem trước sản phẩm")
-                        col_img, col_txt = st.columns([1, 2.5]) # Chia làm 2 cột: Cột ảnh và Cột chữ
-                        with col_img:
-                            if image_url:
-                                st.image(image_url, use_container_width=True)
-                        with col_txt:
-                            if title:
-                                st.write(f"**{title}**")
-
                 # Tạo link AccessTrade
                 try:
                     smart_link = link_generator.create_smartlink(clean_url)
