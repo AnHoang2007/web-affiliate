@@ -111,6 +111,11 @@ if st.button("Tạo Link Affiliate", type="primary"):
                 short_domains = ["shp.ee", "tiktok.com"]
                 if any(sd in url_input for sd in short_domains):
                     try:
+                        headers_unshorten = {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                            "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8"
+                        }
                         res = requests.get(url_input, timeout=10, allow_redirects=True)
                         clean_url = res.url
                     except:
