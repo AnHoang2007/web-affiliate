@@ -81,7 +81,7 @@ class AccessTradeLinkGenerator:
 link_generator = AccessTradeLinkGenerator(AT_API_KEY)
 
 # --- GIAO DIỆN CHÍNH ---
-st.title("🔗 Shopee Affiliate Generator")
+st.title("🔗 Affiliate Tool Generator")
 st.info("Công cụ hỗ trợ kiếm thêm thu nhập từ AccessTrade.")
 
 with st.popover("Hướng dẫn sử dụng", use_container_width=True):
