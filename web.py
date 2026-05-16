@@ -55,7 +55,9 @@ class AccessTradeLinkGenerator:
         self.headers = {
             # Lưu ý: Chữ "Token" phải có dấu cách phía sau
             "Authorization": f"Token {self.api_key}", 
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Accept": "application/json",  # <-- Thêm dòng này để trị dứt điểm lỗi 406
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"  # <-- Thêm dòng này để giả lập trình duyệt vượt tường lửa
         }
 
     def create_smartlink(self, original_url: str) -> str:
