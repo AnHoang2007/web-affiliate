@@ -110,7 +110,7 @@ if st.button("Tạo Link Affiliate", type="primary"):
             with st.spinner('Đang xử lý và tạo link...'):
                 clean_url = url_input
                 
-                short_domains = ["shp.ee", "tiktok.com"]
+                short_domains = ["shp.ee"]
                 if any(sd in url_input for sd in short_domains):
                     try:
                         headers_unshorten = {
