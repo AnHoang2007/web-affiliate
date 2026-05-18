@@ -79,6 +79,27 @@ class AccessTradeLinkGenerator:
         except Exception as e:
             return f"Lỗi hệ thống: {e}"
 
+    def get_coupons(self, merchant: str = "shopee") -> list:
+        """
+        Lấy danh sách mã giảm giá từ AccessTrade theo từng sàn
+        merchant: 'shopee' hoặc 'tiktokshop'
+        """
+        # Endpoint lấy coupon của AccessTrade v1
+        coupon_url = f"https://api.accesstrade.vn/v1/coupons?merchant={merchant}&limit=10"
+        
+        try:
+            # Sử dụng lại self.headers đã có sẵn Authorization Token và User-Agent xịn ở trên
+            response = requests.get(coupon_url, headers=self.headers, timeout=10)
+            
+            if response.status_code == 200:
+                result = response.json()
+                # Dữ liệu mã giảm giá thường nằm trong mảng 'data' hoặc 'data/items' tùy đợt cập nhật của AT
+                return result.get("data", [])
+            return []
+        except Exception as e:
+            print(f"Lỗi lấy mã giảm giá: {e}")
+            return []
+        
 # Khởi tạo công cụ
 link_generator = AccessTradeLinkGenerator(AT_API_KEY)
 
@@ -144,6 +165,69 @@ if st.button("Tạo Link Affiliate", type="primary"):
     else:
         st.error("Bạn quên chưa nhập link rồi!")
 
+# =========================================================
+# KHU VỰC HIỂN THỊ MÃ GIẢM GIÁ TỰ ĐỘNG
+# =========================================================
+st.divider() # Vạch kẻ ngang phân cách với bộ tạo link phía trên
+st.markdown("### 🏷️ Kho Mã Giảm Giá HOT Trong Ngày")
+st.caption("Mã giảm giá được cập nhật tự động theo thời gian thực từ hệ thống.")
+
+# 1. Khởi tạo các Tab cho từng sàn
+tab_shopee, tab_tiktok = st.tabs(["🛍️ Mã Shopee", "🎵 Mã TikTok Shop"])
+
+# --- XỬ LÝ TAB SHOPEE ---
+with tab_shopee:
+    # Gọi hàm lấy mã từ công cụ của bạn (Giả định biến công cụ của bạn tên là 'generator')
+    # Nếu bạn đặt tên biến khởi tạo class khác thì đổi lại tên nhé (ví dụ: at_tool.get_coupons)
+    with st.spinner("Kiểm tra mã Shopee mới nhất..."):
+        shopee_coupons = generator.get_coupons(merchant="shopee")
+    
+    if shopee_coupons:
+        for cp in shopee_coupons:
+            # Bóc tách dữ liệu từ API của AccessTrade
+            cp_name = cp.get("name", "Mã giảm giá Shopee")
+            cp_code = cp.get("coupon_code", "Áp dụng tự động")
+            cp_desc = cp.get("description", "Không có mô tả")
+            cp_link = cp.get("link", "https://shopee.vn") # Link này thường là link affiliate sẵn luôn
+            
+            with st.container(border=True):
+                col_info, col_btn = st.columns([3, 1])
+                with col_info:
+                    st.markdown(f"##### **{cp_name}**")
+                    st.caption(f"📝 {cp_desc}")
+                    if cp_code != "Áp dụng tự động":
+                        st.code(f"MÃ: {cp_code}", language="text")
+                with col_btn:
+                    st.write("") # Đẩy nút xuống chút cho cân đối
+                    st.link_button("Lấy Mã Ngay", cp_link, type="secondary", use_container_width=True)
+    else:
+        st.info("Hiện tại chưa có mã Shopee nào mới được cập nhật.")
+
+# --- XỬ LÝ TAB TIKTOK SHOP ---
+with tab_tiktok:
+    with st.spinner("Kiểm tra mã TikTok Shop mới nhất..."):
+        tiktok_coupons = generator.get_coupons(merchant="tiktokshop")
+        
+    if tiktok_coupons:
+        for cp in tiktok_coupons:
+            cp_name = cp.get("name", "Mã giảm giá TikTok Shop")
+            cp_code = cp.get("coupon_code", "Áp dụng tự động")
+            cp_desc = cp.get("description", "Không có mô tả")
+            cp_link = cp.get("link", "https://tiktok.com")
+            
+            with st.container(border=True):
+                col_info, col_btn = st.columns([3, 1])
+                with col_info:
+                    st.markdown(f"##### **{cp_name}**")
+                    st.caption(f"📝 {cp_desc}")
+                    if cp_code != "Áp dụng tự động":
+                        st.code(f"MÃ: {cp_code}", language="text")
+                with col_btn:
+                    st.write("")
+                    st.link_button("Lấy Mã Ngay", cp_link, type="secondary", use_container_width=True)
+    else:
+        st.info("Hiện tại chưa có mã TikTok Shop nào mới được cập nhật.")
+        
 # --- PHẦN CHÂN TRANG ---
 st.divider()
 st.caption("Phát triển bởi sinh viên UET.")
