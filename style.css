@@ -54,7 +54,7 @@ button[id^="tabs-bui-"][id$="-tab-0"]::before {
     content: "";
     width: 22px;
     height: 22px;
-    background-image: url('https://i.imgur.com/KdfQpQv.png'); /* Link ảnh túi Shopee bạn gửi */
+    background-image: url('https://i.pinimg.com/1200x/6d/b9/31/6db931827443a7455a4b805fe5829820.jpg'); /* Link ảnh túi Shopee bạn gửi */
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
@@ -65,7 +65,7 @@ button[id^="tabs-bui-"][id$="-tab-1"]::before {
     content: "";
     width: 22px;
     height: 22px;
-    background-image: url('https://i.imgur.com/vHqJd8r.png'); /* Link ảnh túi TikTok bạn gửi */
+    background-image: url('https://i.pinimg.com/736x/ab/84/50/ab84509e80b1be458c9a771dbb7b4e9e.jpg'); /* Link ảnh túi TikTok bạn gửi */
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
