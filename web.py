@@ -173,7 +173,7 @@ st.markdown("### 🏷️ Kho Mã Giảm Giá HOT Trong Ngày")
 st.caption("Mã giảm giá được cập nhật tự động theo thời gian thực từ hệ thống.")
 
 # 1. Khởi tạo các Tab cho từng sàn
-tab_shopee, tab_tiktok = st.tabs(["🛍️ Mã Shopee", "🎵 Mã TikTok Shop"])
+tab_shopee, tab_tiktok = st.tabs(["Mã Shopee", "Mã TikTok Shop"])
 
 # --- XỬ LÝ TAB SHOPEE ---
 with tab_shopee:

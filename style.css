@@ -38,3 +38,40 @@ header {visibility: hidden;}
 [data-testid="stSidebar"] {
     background-color: #f8f9fa;
 }
+/* =========================================================
+   6. CẤU HÌNH ICON ẢNH CHO CÁC TAB MÃ GIẢM GIÁ 
+   ========================================================= */
+
+/* Căn chỉnh khoảng cách và bố cục cho các nút Tab */
+button[data-baseweb="tab"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Thay icon ảnh cho Tab Shopee (Tab thứ 1 - Index 0) */
+button[id^="tabs-bui-"][id$="-tab-0"]::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background-image: url('https://i.imgur.com/KdfQpQv.png'); /* Link ảnh túi Shopee bạn gửi */
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+/* Thay icon ảnh cho Tab TikTok Shop (Tab thứ 2 - Index 1) */
+button[id^="tabs-bui-"][id$="-tab-1"]::before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    background-image: url('https://i.imgur.com/vHqJd8r.png'); /* Link ảnh túi TikTok bạn gửi */
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+/* Tinh chỉnh khoảng cách chữ sau khi thêm ảnh */
+button[data-baseweb="tab"] span {
+    margin-left: 4px;
+}
