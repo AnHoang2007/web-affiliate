@@ -39,39 +39,37 @@ header {visibility: hidden;}
     background-color: #f8f9fa;
 }
 /* =========================================================
-   6. CẤU HÌNH ICON ẢNH CHO CÁC TAB MÃ GIẢM GIÁ 
+   6. CẤU HÌNH ICON ẢNH CHO CÁC TAB (BẢN VĨNH CỬU)
    ========================================================= */
 
-/* Căn chỉnh khoảng cách và bố cục cho các nút Tab */
 button[data-baseweb="tab"] {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Thay icon ảnh cho Tab Shopee (Tab thứ 1 - Index 0) */
-button[id^="tabs-bui-"][id$="-tab-0"]::before {
+/* Thêm logo vào Tab số 1 (Shopee) */
+div[data-baseweb="tab-list"] button:nth-of-type(1)::before {
     content: "";
-    width: 22px;
-    height: 22px;
-    background-image: url('https://i.pinimg.com/1200x/6d/b9/31/6db931827443a7455a4b805fe5829820.jpg'); /* Link ảnh túi Shopee bạn gửi */
+    width: 24px;
+    height: 24px;
+    background-image: url('https://i.pinimg.com/736x/b4/32/2a/b4322a7d2808dcde24b34cd70a497170.jpg'); /* Link ảnh túi Shopee */
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
 }
 
-/* Thay icon ảnh cho Tab TikTok Shop (Tab thứ 2 - Index 1) */
-button[id^="tabs-bui-"][id$="-tab-1"]::before {
+/* Thêm logo vào Tab số 2 (TikTok Shop) */
+div[data-baseweb="tab-list"] button:nth-of-type(2)::before {
     content: "";
-    width: 22px;
-    height: 22px;
-    background-image: url('https://i.pinimg.com/736x/ab/84/50/ab84509e80b1be458c9a771dbb7b4e9e.jpg'); /* Link ảnh túi TikTok bạn gửi */
+    width: 24px;
+    height: 24px;
+    background-image: url('https://i.pinimg.com/736x/ab/84/50/ab84509e80b1be458c9a771dbb7b4e9e.jpg'); /* Link ảnh túi TikTok Shop */
     background-size: contain;
     background-repeat: no-repeat;
     display: inline-block;
 }
 
-/* Tinh chỉnh khoảng cách chữ sau khi thêm ảnh */
 button[data-baseweb="tab"] span {
     margin-left: 4px;
 }

@@ -93,8 +93,14 @@ class AccessTradeLinkGenerator:
             
             if response.status_code == 200:
                 result = response.json()
-                # Dữ liệu mã giảm giá thường nằm trong mảng 'data' hoặc 'data/items' tùy đợt cập nhật của AT
-                return result.get("data", [])
+                raw_data = result.get("data", [])
+                
+                # Nếu AccessTrade bọc dữ liệu trong {"data": {"items": [...]}}
+                if isinstance(raw_data, dict):
+                    return raw_data.get("items", [])
+                
+                # Nếu AccessTrade trả về list thẳng [{"name":...}]
+                return raw_data
             return []
         except Exception as e:
             print(f"Lỗi lấy mã giảm giá: {e}")
