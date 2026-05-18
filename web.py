@@ -180,7 +180,7 @@ with tab_shopee:
     # Gọi hàm lấy mã từ công cụ của bạn (Giả định biến công cụ của bạn tên là 'generator')
     # Nếu bạn đặt tên biến khởi tạo class khác thì đổi lại tên nhé (ví dụ: at_tool.get_coupons)
     with st.spinner("Kiểm tra mã Shopee mới nhất..."):
-        shopee_coupons = generator.get_coupons(merchant="shopee")
+        shopee_coupons = link_generator.get_coupons(merchant="shopee")
     
     if shopee_coupons:
         for cp in shopee_coupons:
@@ -206,7 +206,7 @@ with tab_shopee:
 # --- XỬ LÝ TAB TIKTOK SHOP ---
 with tab_tiktok:
     with st.spinner("Kiểm tra mã TikTok Shop mới nhất..."):
-        tiktok_coupons = generator.get_coupons(merchant="tiktokshop")
+        tiktok_coupons = link_generator.get_coupons(merchant="tiktokshop")
         
     if tiktok_coupons:
         for cp in tiktok_coupons:
